@@ -1,0 +1,23 @@
+網址:https://yaoandy107.github.io/line-bot-tutorial/
+
+
+帳號:leoleo6532@gmail.com
+密碼:Aa@22872256
+
+API:ai-pig.herokuapp.com/callback
+
+3.載 git 、 Heroku CLI
+4.heroku login
+5.git config --global user.name "你的名字"
+6.git config --global user.email"你的信箱"
+7.git init
+8.heroku git:remote -a HEROKU_APP_NAME
+
+9.輸入以下指令，將程式碼推上 Heroku，如果有跳出錯誤請重新輸入
+
+git add .
+git commit -m "Add code"
+git push -f heroku master
+
+維修
+heroku maintenance:on
