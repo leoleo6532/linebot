@@ -207,12 +207,12 @@ def handle_message(event):
     elif(text=="可查詢" or text=="功能" or text=="?"): 
         reply_text = "本產品[肺-REAL-GOOD]官方網址如下:\nhttp://192.168.43.51/index1.php\n功能列表:\n***最新10筆資料***\n1.顯示病患檢測時間\n2.顯示病患ID及預測得病率\n3.可上傳影像立即辨識\n聯絡電話:02-2234-2258\nEmail:zxcv@gmail.com"   
     elif( "肺癌"  in  text):
-        apiURL= 'https://iot.cht.com.tw/iot/v1/device/23632626264/sensor/data/rawdata?start=2020-08-19T23:59:59.000Z&end=2020-12-31T23:59:59.000Z&utcOffset=8'  #大平台通道ID  &utcOffset=8
+        apiURL= 'https://iot.cht.com.tw/iot/v1/device/23632626264/sensor/data2/rawdata?start=2020-08-19T23:59:59.000Z&end=2020-12-31T23:59:59.000Z&utcOffset=8'  #大平台通道ID  &utcOffset=8
         headers = {
                     "CK":"PK4ACRESYYKAKUUTPE",
                     "Content-Type": "application/json",
                    }
-        payload=[{"id":"data"}]
+        payload=[{"id":"data2"}]
         response1 = requests.get(apiURL, headers=headers, data=json.dumps(payload))
         hjson = json.loads(response1.text)
         #reply_text = "預約掛號網址:http://localhost/index1.php"
@@ -285,19 +285,18 @@ def handle_message(event):
 #圖片辨識
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_message(event):
-
     message_content = line_bot_api.get_message_content(event.message.id)
+    time.sleep(6)
     # 存起來
     with open('C:\\Last_test\\DL\\MAIN\\AI_TEST\\sick\\'+event.message.id+'.jpg', 'wb') as fd:
         for chunk in message_content.iter_content():#照片太大可以支援
-            fd.write(chunk)
-    time.sleep(2)
-    apiURL= 'https://iot.cht.com.tw/iot/v1/device/23632626264/sensor/data/rawdata?start=2020-08-19T23:59:59.000Z&end=2020-12-31T23:59:59.000Z&utcOffset=8'  #大平台通道ID  &utcOffset=8
+            fd.write(chunk)      
+    apiURL= 'https://iot.cht.com.tw/iot/v1/device/23632626264/sensor/data2/rawdata?start=2020-08-19T23:59:59.000Z&end=2020-12-31T23:59:59.000Z&utcOffset=8'  #大平台通道ID  &utcOffset=8
     headers = {
                 "CK":"PK4ACRESYYKAKUUTPE",
                 "Content-Type": "application/json",
               }
-    payload=[{"id":"data"}]
+    payload=[{"id":"data2"}]
     response1 = requests.get(apiURL, headers=headers, data=json.dumps(payload))
     hjson = json.loads(response1.text) 
     get_data = (hjson[-1]['time'],hjson[-1]['value'])
