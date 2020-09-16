@@ -4,6 +4,9 @@
 帳號:leoleo6532@gmail.com
 密碼:Aa@22872256
 
+aws:學校帳號 密碼:aa@22872256
+iot:0930247047 aa22872256
+
 API:ai-pig.herokuapp.com/callback
 
 3.載 git 、 Heroku CLI

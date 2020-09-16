@@ -163,7 +163,7 @@ def handle_message(event):
         try:
            message = [
               TextSendMessage(
-              text = "現在時間:"+str(datetime.datetime.now())[:16]+"\n臺北榮民總醫院掛號人數:156\n新光吳火獅紀念醫院掛號人數:144\n長庚紀念醫院掛號人數:138\n臺大醫院掛號人數:135\n分析結果:掛號台大醫院為您最省時~\n臺大醫院牙科掛號網址:\n"+str("https://reg.ntuh.gov.tw/WebAdministration/default.aspx")
+              text = "臺大醫院網址:\nhttps://www.ntuh.gov.tw/ntuh/Index.action"
              ),
               LocationSendMessage(
               title='臺大醫院',
@@ -205,8 +205,8 @@ def handle_message(event):
 
 
     elif(text=="可查詢" or text=="功能" or text=="?"): 
-        reply_text = "本產品[牙力山大]官方網址如下:\nhttps://cindy622512.wixsite.com/aimedical\n功能列表:\n***最新10筆資料***\n1.顯示病患檢測時間\n2.顯示病患ID及預測得病率\n3.可上傳影像立即辨識\n4.比較各家醫院掛號人數\n5.線上填寫就診單\n聯絡電話:02-2234-2258\nEmail:zxcv@gmail.com"   
-    elif( "牙周病"  in  text):
+        reply_text = "本產品[不要再耍肺了]官方網址如下:\nhttps://cindy622512.wixsite.com/aimedical\n功能列表:\n***最新10筆資料***\n1.顯示病患檢測時間\n2.顯示病患ID及預測得病率\n3.可上傳影像立即辨識\n聯絡電話:02-2234-2258\nEmail:zxcv@gmail.com"   
+    elif( "肺癌"  in  text):
         apiURL= 'https://iot.cht.com.tw/iot/v1/device/23632626264/sensor/data2/rawdata?start=2020-08-19T23:59:59.000Z&end=2020-12-31T23:59:59.000Z&utcOffset=8'  #大平台通道ID  &utcOffset=8
         headers = {
                     "CK":"PK4ACRESYYKAKUUTPE",
@@ -285,10 +285,6 @@ def handle_message(event):
 #圖片辨識
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_message(event):
-    #牙周病
-    apiURL2 = 'http://iot.cht.com.tw/iot/v1/device/24467405651/rawdata'  #17750119494
-    headers2 = { "CK":"PKFSYKYU7YG9Z7315Y","Content-Type": "application/json",}  #PK0B9PPBEHGEA4ASC7    
-    #****************************************************
     message_content = line_bot_api.get_message_content(event.message.id)
     # 存起來
     with open('C:\\Last_test\\DL\\MAIN\\AI_TEST\\sick\\'+event.message.id+'.jpg', 'wb') as fd:
@@ -302,56 +298,14 @@ def handle_message(event):
     payload=[{"id":"data2"}]
     time.sleep(6)#等待避免時間衝突
     response1 = requests.get(apiURL, headers=headers, data=json.dumps(payload))
-    #牙周病
-    response2 = requests.get(apiURL2, headers=headers2) 
-    ret = json.loads(response2.text)
-    #**********
-    c=ret[0]['id'], ret[0]['value']
     hjson = json.loads(response1.text) 
     get_data = (hjson[-1]['time'],hjson[-1]['value'])
-   
-#    line_bot_api.reply_message(
-#        event.reply_token,
-#        TextSendMessage(text = str(get_data)))
-    if(float(ret[0]['value'][0]) < 50  ):
-        try:
-            message = [
-              TextSendMessage(
-              text =  "!!!!中度風險!!!!\n"+str(get_data)+"\n你該調整刷牙姿勢刷牙囉"+"\n刷牙姿勢矯正影片:https://www.youtube.com/watch?v=Zqltl52fg-U&ab_channel=%E9%AB%98%E9%9B%84%E9%86%AB%E5%AD%B8%E5%A4%A7%E5%AD%B8%E5%8F%A3%E8%85%94%E8%A1%9B%E7%94%9F%E5%AD%B8%E7%B3%BB"
-             ),
-              TextSendMessage(
-              text =  "為您推薦此電動牙刷"
-             ),
-              ImageSendMessage(
-              original_content_url = "https://i.imgur.com/C4zLFZl.jpg",
-              preview_image_url = "https://i.imgur.com/C4zLFZl.jpg"             
-             ),
-            ]
-            line_bot_api.reply_message(event.reply_token,message)
-        except:
-           line_bot_api.reply_message(event.reply_token,message,TextSendMessage(reply_text = "發生錯誤"))
-       
-
-    elif(float(ret[0]['value'][0]) > 50):
-        try:
-           message = [
-              TextSendMessage(
-              text = "!!!!高危險份子 注意!!!\n"+str(get_data)+"\n現在時間:"+str(datetime.datetime.now())[:16]+"\n--------------------"+"\n臺北榮民總醫院掛號人數:156\n新光吳火獅紀念醫院掛號人數:144\n長庚紀念醫院掛號人數:138\n臺大醫院掛號人數:135\n分析結果:掛號台大醫院為您最省時~\n臺大醫院牙科掛號網址:\n"+str("https://reg.ntuh.gov.tw/WebAdministration/default.aspx")
-             ),
-              LocationSendMessage(
-              title='臺大醫院',
-              address="No. 7, Zhongshan South Road, Zhongzheng District, Taipei City, 100",
-              latitude=25.0407,
-              longitude=121.5190
-             )
-           ]           
-           line_bot_api.reply_message(event.reply_token,message)
-        except:
-           line_bot_api.reply_message(event.reply_token,message,TextSendMessage(reply_text = "發生錯誤"))
-#'''           
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text = str(get_data)))
 
 import os
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
-#20200907    
+#20200907   
